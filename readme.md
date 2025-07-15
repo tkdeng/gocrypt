@@ -2,7 +2,7 @@
 
 Encryption and Hashing Algorithms for Go.
 
-Uses [Argon2](golang.org/x/crypto/argon2) under the hood.
+Uses Argon2 under the hood.
 
 ## Installation
 
