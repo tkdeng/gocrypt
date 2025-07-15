@@ -36,8 +36,8 @@ type argon2Params struct {
 	keyLen      uint32
 }
 
-// generateSalt generates a cryptographically secure random salt of the specified length.
-func generateSalt(n int) ([]byte, error) {
+// GenerateSalt generates a cryptographically secure random salt of the specified length.
+func GenerateSalt(n int) ([]byte, error) {
 	salt := make([]byte, n)
 	if _, err := io.ReadFull(rand.Reader, salt); err != nil {
 		return nil, fmt.Errorf("failed to read random bytes for salt: %w", err)
@@ -48,7 +48,7 @@ func generateSalt(n int) ([]byte, error) {
 // FastHash hashes a string using hmac with sha512
 func FastHash(data string, salt ...string) (string, error) {
 	if len(salt) == 0 {
-		k, err := generateSalt(256)
+		k, err := GenerateSalt(256)
 		if err != nil {
 			return "", err
 		}
@@ -63,7 +63,7 @@ func FastHash(data string, salt ...string) (string, error) {
 
 // HashPasswd hashes a password with the secure Argon2 method
 func HashPasswd(password string) (string, error) {
-	salt, err := generateSalt(int(saltLen))
+	salt, err := GenerateSalt(int(saltLen))
 	if err != nil {
 		return "", err
 	}
@@ -180,7 +180,7 @@ func deriveKeyFromPassphrase(passphrase string, salt []byte, secure bool, params
 //   - true: use secure argon2 method to hash the passphrase
 //   - false: use fast hmac with sha512 method to hash the passphrase
 func Encrypt(plaintext, passphrase string, useArgon2 bool) (string, error) {
-	salt, err := generateSalt(int(saltLen))
+	salt, err := GenerateSalt(int(saltLen))
 	if err != nil {
 		return "", fmt.Errorf("failed to generate salt for key derivation: %w", err)
 	}

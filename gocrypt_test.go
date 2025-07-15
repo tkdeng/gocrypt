@@ -9,14 +9,14 @@ func Test(t *testing.T) {
 	salts := [][]byte{}
 
 	for range 10000 {
-		salt, err := generateSalt(8)
+		salt, err := GenerateSalt(8)
 		if err != nil {
-			t.Errorf("generateSalt failed: %v", err)
+			t.Errorf("GenerateSalt failed: %v", err)
 		}
 
 		for _, s := range salts {
 			if bytes.Equal(salt, s) {
-				t.Errorf("generateSalt should return unique salts, found duplicate after %d tries", len(salts))
+				t.Errorf("GenerateSalt should return unique salts, found duplicate after %d tries", len(salts))
 				return
 			}
 		}
